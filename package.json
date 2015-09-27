@@ -1,7 +1,7 @@
 {
 	"name": "bookmarks-dedupe",
 	"version": "1.0.0",
-	"description": "Deduplicate bookmarks in Chrome (and other) exported HTML files.",
+	"description": "Deduplicate bookmarks in Chrome exported HTML files.",
 	"main": "index.js",
 	"scripts": {
 		"test": "mocha tests/**"
