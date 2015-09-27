@@ -25,6 +25,6 @@ var args = parser.parseArgs();
 
 var BookmarkDedupe = require( './index.js' );
 
-var b = new BookmarkDedupe( args.file, args.file + '.deduped.html' );
+var b = new BookmarkDedupe( args.file, path.basename( args.file ) + path.join( '.deduped.html' ) );
 
-b.dedupe();
+b.save( b.dedupe() );

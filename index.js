@@ -156,6 +156,13 @@ BookmarkDedupe.prototype = {
 		console.log( 'Deduplication summary:', totalDuplicatesRemoved, 'duplicates were removed.' );
 
 		return parsed;
+	},
+
+	save: function( parsed ) {
+
+		var html = netscapeBookmarks( parsed );
+
+		fs.writeFileSync( this.outFile, html );
 	}
 
 };

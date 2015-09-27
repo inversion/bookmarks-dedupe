@@ -1,16 +1,22 @@
 'use strict';
 
 var path = require( 'path' );
+var fs = require( 'fs' );
 var assert = require( 'assert' );
 var BookmarkDedupe = require( '../index.js' );
 
 describe( 'BookmarkDedupe', function() {
 
-	var expectedParse, b;
+	var expectedParse, b, testOut = '__test.deduped.html';
+
+	after( function() {
+
+		fs.unlinkSync( testOut );
+	} );
 
 	beforeEach( function() {
 
-		b = new BookmarkDedupe( path.join( __dirname, 'resources/test.html' ) );
+		b = new BookmarkDedupe( path.join( __dirname, 'resources/test.html' ), testOut );
 
 		expectedParse = {
 			'cheeriojs/cheerio': {
@@ -73,7 +79,6 @@ describe( 'BookmarkDedupe', function() {
 		assert.deepEqual( expectedParse, b.parse() );
 	} );
 
-
 	it( 'deduplicates correctly', function() {
 
 		delete expectedParse[ 'Bookmarks Bar' ].contents.a.contents.b.contents[ 'bahamas10/node-netscape-bookmarks' ];
@@ -82,5 +87,16 @@ describe( 'BookmarkDedupe', function() {
 		delete expectedParse[ 'cheeriojs/cheerio (1)' ];
 
 		assert.deepEqual( expectedParse, b.dedupe() );
+	} );
+
+	it( 'deduplicates and saves to file correctly', function() {
+
+		b.save( b.dedupe() );
+
+		assert.equal( fs.readFileSync( path.join( __dirname, 'resources/test.html.deduped.html' ), {
+			encoding: 'utf-8'
+		} ), fs.readFileSync( testOut, {
+			encoding: 'utf-8'
+		} ) );
 	} );
 } );
