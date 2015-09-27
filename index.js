@@ -72,13 +72,19 @@ BookmarkDedupe.prototype = {
 
 					var url = wrapped.attr( 'href' );
 
-					if ( out[ name ] ) {
+					var i = 1;
 
-						console.warn( 'Multiple bookmarks with the name', name, 'at', folderPath.join( '->' ) );
-						console.warn( 'Bookmark with url', url, 'was overwritten' );
+					var key = name;
+
+					while ( out[ key ] ) {
+
+						key = name + ' (' + i++ + ')';
+
+						// console.warn( 'Multiple bookmarks with the name', name, 'at', folderPath.join( '->' ) );
+						// console.warn( 'Bookmark with url', url, 'was overwritten' );
 					}
 
-					out[ name ] = {
+					out[ key ] = {
 						url: url,
 						add_date: +wrapped.attr( 'add_date' ),
 						icon: wrapped.attr( 'icon' )
